@@ -1,0 +1,6 @@
+<component>
+    <dependencies>
+        <module name="module1" id="123"/>
+        <module name="module2" id="456"/>
+    </dependencies>
+</component>
