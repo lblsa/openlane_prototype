@@ -1,0 +1,8 @@
+<component name="algorithm_b">
+  <settings>
+    <interface id="0x00000041" service="127.0.0.1:4000">
+    <interface id="0x00000042" service="127.0.0.1:4001">
+  </settings>
+</component>
+
+

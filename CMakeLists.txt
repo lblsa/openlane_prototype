@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-project(openulane)
+project(openlane)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/openlane.cmake)
 
 include_directories(include)
 
-set(CMAKE_CXX_FLAGS "-O0 -ggdb")
-
 add_subdirectory(src)
+add_subdirectory(sample)
 add_subdirectory(tests)

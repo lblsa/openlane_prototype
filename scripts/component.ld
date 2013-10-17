@@ -1,0 +1,7 @@
+{                                                                                                                                                                    
+global:
+    LoadComponent;
+    UnloadComponent;
+local:
+    *;
+};

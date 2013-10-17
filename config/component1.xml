@@ -1,0 +1,12 @@
+<component name="component1">
+  <settings>
+    <interface id="0x00000001" service="127.0.0.1:2000">
+    <interface id="0x00000002" service="127.0.0.1:2001">
+    <interface id="0x00000003" service="127.0.0.1:2002">
+  </settings>
+  <depend component="algorithm_a"/>
+  <depend component="algorithm_b"/>
+  <depend component="algorithm_c"/>
+</component>
+
+
