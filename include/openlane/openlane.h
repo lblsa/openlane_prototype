@@ -1,6 +1,7 @@
 #ifndef OPENLANE_H
 #define OPENLANE_H
 
+#include <stdint.h>
 #include <openlane/error_code.h>
 
 

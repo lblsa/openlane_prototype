@@ -3,6 +3,7 @@
 
 #include <string>
 #include <dlfcn.h>
+#include <ptr.hpp>
 
 namespace openlane {
 
@@ -17,11 +18,13 @@ class DynamicLibrary {
     bool IsValid();
 
     template<typename F>
-    ErrorCode GetSymbol(const char* symbol_name, F& out);
+    inline ErrorCode GetSymbol(const char* symbol_name, F& out);
   private:
     void*   hdl;
     std::string error;
 };
+
+typedef smart::ptr<DynamicLibrary> DynamicLibraryPtr;
 
 } /* openlane */
 

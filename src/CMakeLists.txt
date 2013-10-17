@@ -2,6 +2,7 @@ add_library(openlane STATIC
     module.cpp
     xml_parser.cpp
     module_xml_parser.cpp
+    component_provider.cpp
     )
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
