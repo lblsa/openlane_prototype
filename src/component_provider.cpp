@@ -19,7 +19,7 @@ ErrorCode ComponentProvider::LoadComponent(const char* filename) {
     if (!filename)
         return InvalidArgument;
 
-    ErrorCode result = parser.Parse(filename);
+    ErrorCode result = xml_parser.Parse(filename);
     if (result != Ok)
         return result;
 
