@@ -10,6 +10,7 @@ namespace openlane {
 class DynamicLibrary {
   public:
     DynamicLibrary();
+    ~DynamicLibrary();
 
     ErrorCode Load(const std::string& filename);
     ErrorCode Unload();

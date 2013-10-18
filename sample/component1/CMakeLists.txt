@@ -4,4 +4,9 @@ project(component1)
 
 include_directories(../../)
 
-openlane_build_component(component1 main.c)
+set (SOURCES
+    main.cpp
+    component.cpp
+)
+
+openlane_build_component(component1 "${SOURCES}")

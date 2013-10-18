@@ -4,4 +4,9 @@ project(algorithm_a)
 
 include_directories(../../)
 
-openlane_build_component(algorithm_a main.c algo.c)
+set (SOURCES
+    main.cpp
+    algo.cpp
+)
+
+openlane_build_component(algorithm_a "${SOURCES}")

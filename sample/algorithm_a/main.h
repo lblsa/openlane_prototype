@@ -3,8 +3,10 @@
 
 #include <openlane/visibility.h>
 
-DLL_PUBLIC void LoadComponent(void *ctx);
-DLL_PUBLIC void UnloadComponent(void *ctx);
+extern "C" {
+uint32_t DLL_PUBLIC LoadComponent(void *ctx);
+uint32_t DLL_PUBLIC UnloadComponent(void *ctx);
+}
 
 #endif /* end of include guard: MAIN_H */
 
