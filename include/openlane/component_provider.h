@@ -28,7 +28,7 @@ class ComponentProvider {
     void* CreateObject(T& c) {
             std::map<uint32_t, CreateComponentFn>::const_iterator pos = dic.find(T::element_t::ID);
             if (pos == dic.end())
-                return NULL;
+                return NULL; 
 
             CreateComponentFn func = pos->second;
 

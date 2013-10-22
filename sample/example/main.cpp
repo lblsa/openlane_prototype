@@ -21,7 +21,7 @@ int main(int argc, const char *argv[])
             std::cerr << "LoadComponent libalgorithm_b.so failed, err=" << res << std::endl;
             return 1;
         }
-    } else {
+    } else if (a == 3) {
         res = provider.LoadComponent("./libalgorithm_c.so");
         if (openlane::Ok != res ) {
             std::cerr << "LoadComponent libalgorithm_c.so failed, err=" << res << std::endl;

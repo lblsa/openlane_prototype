@@ -19,6 +19,8 @@ void ComponentOne::Run()
     AlgorithmPtr algo;
     if (cp->CreateObject(algo)) {
         algo->DoAlgo();
+    } else {
+        std::cerr << "Failed to create AlgorithmPtr, no interface" << std::endl;
     }
 }
 
