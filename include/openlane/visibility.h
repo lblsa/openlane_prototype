@@ -1,6 +1,8 @@
 #ifndef VISIBILITY_H
 #define VISIBILITY_H
 
+#include <stdint.h>
+
 // http://gcc.gnu.org/wiki/Visibility
 #if defined _WIN32 || defined __CYGWIN__
   #ifdef BUILDING_DLL

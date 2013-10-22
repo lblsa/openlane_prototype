@@ -11,14 +11,21 @@
 
 namespace openlane {
 
-class ComponentProvider {
+class IComponentProvider {
+  public:
+    virtual ~IComponentProvider() {};
+    virtual ErrorCode RegisterComponent(uint32_t id, IComponent* c) = 0;
+    virtual ErrorCode UnregisterComponent(uint32_t id, IComponent* c) = 0;
+};
+
+class ComponentProvider : public IComponentProvider {
   public:
     ComponentProvider();
-    ~ComponentProvider();
+    virtual ~ComponentProvider();
 
     ErrorCode LoadComponent(const char* filename);
-    ErrorCode RegisterComponent(uint32_t id, IComponent* c);
-    ErrorCode UnregisterComponent(uint32_t id, IComponent* c);
+    virtual ErrorCode RegisterComponent(uint32_t id, IComponent* c);
+    virtual ErrorCode UnregisterComponent(uint32_t id, IComponent* c);
 
   private:
     ComponentProvider(const ComponentProvider&);

@@ -9,6 +9,12 @@ DynamicLibrary::DynamicLibrary():
 {
 }
 
+DynamicLibrary::~DynamicLibrary()
+{
+    if (IsValid())
+        Unload();
+}
+
 ErrorCode DynamicLibrary::Load(const std::string& filename) {
     hdl = ::dlopen(filename.c_str(), RTLD_NOW);
     if (hdl == NULL) {
@@ -18,7 +24,9 @@ ErrorCode DynamicLibrary::Load(const std::string& filename) {
 }
 
 ErrorCode DynamicLibrary::Unload() {
-    return ::dlclose(hdl) == 0 ? Ok : Fail;
+    ::dlclose(hdl);
+    hdl = NULL;
+    return Ok;
 }
 
 
@@ -27,7 +35,7 @@ std::string DynamicLibrary::GetError() {
 }
 
 bool DynamicLibrary::IsValid() {
-    return hdl ? Ok : Fail;
+    return !!hdl;
 }
 
 

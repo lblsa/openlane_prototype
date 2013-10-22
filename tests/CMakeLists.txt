@@ -7,14 +7,14 @@ add_executable(tests
 
 target_link_libraries(tests openlane gtest)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/valid.xml
-    COMMAND cp ../../config/*xml ${CMAKE_CURRENT_BINARY_DIR} # FIXME
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+add_custom_command(OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/valid.xml
+    COMMAND cp ../../config/*xml ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} # FIXME
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMENT "Copy xml files..."
 )
 
 add_custom_target (copy_xml ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/valid.xml
-    WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    DEPENDS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/valid.xml
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
 

@@ -1,22 +1,33 @@
 #include <openlane/component_provider.h>
+#include <openlane/module.h>
 #include <iostream>
+
+typedef uint32_t (*LoadComponentType)(void *ctx);
+LoadComponentType LCT;
 
 namespace openlane {
 
-ComponentProvider::ComponentProvider() {
+ComponentProvider::ComponentProvider() :
+    xml_parser()
+{
 }
 
 ComponentProvider::~ComponentProvider() {
-    ComponentConstIterator b = components.begin();
-    ComponentConstIterator e = components.end();
-    for(;b != e; ++b) {
-        (*b)->Unload();
-    }
 }
 
 ErrorCode ComponentProvider::LoadComponent(const char* filename) {
     if (!filename)
         return InvalidArgument;
+
+    ErrorCode result = xml_parser.Parse(filename);
+    if (result != Ok)
+        return result;
+
+    DynamicLibrary module;
+    ErrorCode res = module.Load("./libcomponent1.so");
+    res = module.GetSymbol("LoadComponent", LCT);
+    if (Ok == res)
+        LCT(this);
 
     std::cout << "ComponentProvider::LoadComponent\tfilename=" << filename << std::endl;
     return Ok;

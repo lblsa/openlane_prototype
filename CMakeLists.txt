@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 project(openlane)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/openlane.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/OpenLane.cmake)
 
 include_directories(include)
 

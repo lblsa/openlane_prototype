@@ -9,12 +9,9 @@ class ComponentProviderTest : public ::testing::Test
   public:
     virtual void SetUp() {}
     virtual void TearDown() {};
-
-    typedef double (*fp_sin_t)(double x);
-    fp_sin_t fp_sin;
 };
 
-TEST_F(ComponentProviderTest, ModuleDoesNotExist)
+TEST_F(ComponentProviderTest, Valid)
 {
     openlane::ComponentProvider provider;
     openlane::ErrorCode result = provider.LoadComponent("component1.xml");

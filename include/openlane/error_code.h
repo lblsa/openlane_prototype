@@ -6,7 +6,10 @@ namespace openlane {
 enum ErrorCode {
     Ok = 0,
     Fail,
-    InvalidArgument
+    InvalidArgument,
+    Unexpected,
+    NoMemory,
+    NotInitialized
 };
 
 } /* openlane */
