@@ -84,9 +84,7 @@ void ModuleXmlParser::EndElement(const XML_Char *name) {
 
 void ModuleXmlParser::ParseRoot(const XML_Char *name, const XML_Char **atts) {
     // component name
-    const char* component_name = atts[1];
-
-    std::cout << "xml_parser\t" << "Parse 'component': " << component_name << std::endl;
+    std::cout << "xml_parser\t" << "Parse 'component': " << name << std::endl;
 
     parsed_element = COMPONENT;
 }
