@@ -6,19 +6,23 @@
 
 namespace openlane {
 
-class IComponentProvider;
+class ComponentProvider;
 
 class IComponent {
   public:
-    IComponent(IComponentProvider* cp):icp(cp) {
+    enum { ID = -1 };
+
+    IComponent(ComponentProvider* cp):icp(cp) {
         assert(icp);
     }
     virtual ~IComponent() {};
   protected:
-    IComponentProvider* icp; 
+    // FIXME: to derived class
+    ComponentProvider* icp; 
 };
 
-typedef smart::ptr<IComponent> IComponentPtr;
+typedef smart::ptr<IComponent> IComponentPtr; // FIXME
+typedef void* (*CreateComponentFn)(void* ctx, void** obj);
 
 } /* openlane */
 

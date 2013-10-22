@@ -6,10 +6,14 @@
 
 class AlgorithmC : public openlane::IComponent {
   public:
-    enum { ID = 0x00000021 };
+    enum { ID = 0x00000031 };
 
-    AlgorithmC(openlane::IComponentProvider* cp);
+    AlgorithmC(openlane::ComponentProvider* cp);
     virtual ~AlgorithmC();
+
+    static void* Create(void* ctx, void** obj);
 }; 
+
+typedef smart::ptr<AlgorithmC> AlgorithmCPtr;
 
 #endif /* end of include guard: ALGORITHM_C_H */

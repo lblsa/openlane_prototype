@@ -8,8 +8,12 @@ class AlgorithmB : public openlane::IComponent {
   public:
     enum { ID = 0x00000021 };
 
-    AlgorithmB(openlane::IComponentProvider* cp);
+    AlgorithmB(openlane::ComponentProvider* cp);
     virtual ~AlgorithmB();
+
+    static void* Create(void* ctx, void** obj);
 }; 
+
+typedef smart::ptr<AlgorithmB> AlgorithmBPtr;
 
 #endif /* end of include guard: ALGORITHM_B_H */

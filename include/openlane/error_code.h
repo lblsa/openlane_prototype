@@ -9,7 +9,8 @@ enum ErrorCode {
     InvalidArgument,
     Unexpected,
     NoMemory,
-    NotInitialized
+    NotInitialized,
+    NoInterface
 };
 
 } /* openlane */

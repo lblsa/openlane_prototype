@@ -8,24 +8,37 @@
 
 #include <string>
 #include <vector>
+#include <map>
+
+#include <stdio.h>
 
 namespace openlane {
 
-class IComponentProvider {
-  public:
-    virtual ~IComponentProvider() {};
-    virtual ErrorCode RegisterComponent(uint32_t id, IComponent* c) = 0;
-    virtual ErrorCode UnregisterComponent(uint32_t id, IComponent* c) = 0;
-};
-
-class ComponentProvider : public IComponentProvider {
+class ComponentProvider {
   public:
     ComponentProvider();
     virtual ~ComponentProvider();
 
+    ErrorCode Initialize(const char* filename);
     ErrorCode LoadComponent(const char* filename);
-    virtual ErrorCode RegisterComponent(uint32_t id, IComponent* c);
-    virtual ErrorCode UnregisterComponent(uint32_t id, IComponent* c);
+    virtual ErrorCode RegisterComponent(uint32_t id, CreateComponentFn fun);
+    virtual ErrorCode UnregisterComponent(uint32_t id);
+
+    template<class T>
+    void* CreateObject(T& c) {
+            std::map<uint32_t, CreateComponentFn>::const_iterator pos = dic.find(T::element_t::ID);
+            if (pos == dic.end())
+                return NULL;
+
+            CreateComponentFn func = pos->second;
+
+            void* obj;
+            func(this, &obj);
+
+            c.reset(static_cast<typename T::element_t*>(obj));
+            return obj;
+        }
+
 
   private:
     ComponentProvider(const ComponentProvider&);
@@ -33,8 +46,9 @@ class ComponentProvider : public IComponentProvider {
 
     ModuleXmlParser xml_parser;
 
-    typedef std::vector<DynamicLibraryPtr>::const_iterator ComponentConstIterator;
-    std::vector<DynamicLibraryPtr> components;
+    typedef std::vector<DynamicLibraryPtr>::reverse_iterator ComponentReverseIterator;
+    std::vector<DynamicLibraryPtr> modules;
+    std::map<uint32_t, CreateComponentFn> dic;
 };
     
 } /* openlane */
