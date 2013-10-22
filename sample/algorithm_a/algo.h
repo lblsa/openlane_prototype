@@ -2,20 +2,16 @@
 #define ALGORITHM_A_H
 
 #include <openlane/component.h>
-#include <openlane/component_provider.h>
+#include <algorithm/algo.h>
 
-class AlgorithmA : public openlane::IComponent {
+class AlgorithmA : public IAlgorithm {
   public:
-    enum { ID = 0x00000011 };
-
-    AlgorithmA(openlane::ComponentProvider* cp);
+    AlgorithmA();
     virtual ~AlgorithmA();
 
-    virtual void DoAlgoA();
+    virtual void DoAlgo();
 
     static void* Create(void* ctx, void** obj);
 }; 
-
-typedef smart::ptr<AlgorithmA> AlgorithmAPtr;
 
 #endif /* end of include guard: ALGORITHM_A_H */

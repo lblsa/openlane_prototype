@@ -1,7 +1,7 @@
 #include <openlane/component_provider.h>
 #include "algo.h"
 
-AlgorithmB::AlgorithmB(openlane::ComponentProvider* cp) : openlane::IComponent(cp)
+AlgorithmB::AlgorithmB(openlane::ComponentProvider* _cp) : cp(_cp)
 {
     std::cout << "AlgorithmB::AlgorithmB" << std::endl;
 }
@@ -9,6 +9,11 @@ AlgorithmB::AlgorithmB(openlane::ComponentProvider* cp) : openlane::IComponent(c
 AlgorithmB::~AlgorithmB()
 {
     std::cout << "AlgorithmB::~AlgorithmB" << std::endl;
+}
+
+void AlgorithmB::DoAlgo()
+{
+    std::cout << "AlgorithmB::DoAlgo" << std::endl;
 }
 
 void* AlgorithmB::Create(void* ctx, void** obj)
