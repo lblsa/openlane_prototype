@@ -20,6 +20,7 @@ class ModuleXmlParser : private IXmlParser {
     ErrorCode Parse(const char* file_name);
     virtual void StartElement(const XML_Char *name, const XML_Char **atts);
     virtual void EndElement(const XML_Char *name);
+
   private:
     void ParseRoot(const XML_Char *name, const XML_Char **atts);
     void ParseComponent(const XML_Char *name, const XML_Char **atts);

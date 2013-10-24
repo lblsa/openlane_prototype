@@ -24,36 +24,38 @@ ErrorCode ModuleXmlParser::Parse(const char* file_name) {
     if (!file_name)
         return InvalidArgument;
 
+    if (Create() != Ok) {
+        std::cerr << "xml_parser\tFailed to create parser" << std::endl;
+        return Fail;
+    }
+
     std::fstream file;
     file.open(file_name, std::fstream::in);
     if (file.fail()) {
         std::cerr << "xml_parser\tFailed to open file " << file_name << std::endl;
+        Free();
         return Fail;
     }
+
     ErrorCode error = Ok;
     while(!file.eof()) {
         char buf[BUF_SIZE] = {0};
         file.read(buf, BUF_SIZE);
 
         int len = file.gcount() < BUF_SIZE ? file.gcount() : BUF_SIZE;
-        ErrorCode result = DoParse(&buf[0], len, len<BUF_SIZE ?1 : 0);
-        if (Ok != result) {
-            std::cerr << "xml_parser\tParsing failed, result=" << result << std::endl;
-            error = Fail;
+        error = DoParse(&buf[0], len, len<BUF_SIZE ?1 : 0);
+        if (Ok != error)
             break;
-        }
     }
 
     file.close();
-    ResetParser();
+    Free();
     parsed_element = ROOT;
     return error;
 }
 
-#include <stdio.h>
-
 void ModuleXmlParser::StartElement(const XML_Char *name, const XML_Char **atts) {
-    // FIXME
+    // TODO
 
     switch(parsed_element) {
         case ROOT:
@@ -71,7 +73,7 @@ void ModuleXmlParser::StartElement(const XML_Char *name, const XML_Char **atts) 
 }
 
 void ModuleXmlParser::EndElement(const XML_Char *name) {
-    // FIXME
+    // TODO
     
     switch(parsed_element) {
         case ROOT:
@@ -88,10 +90,16 @@ void ModuleXmlParser::EndElement(const XML_Char *name) {
 
 void ModuleXmlParser::ParseRoot(const XML_Char *name, const XML_Char **atts) {
     // component name
-    std::cout << "xml_parser\t" << "Parse 'component': " << name << std::endl;
+    // TODO
+    if (!atts || !atts[0] || !atts[1]) {
+        std::cerr << "xml_parser\t" << "Failed to parse 'component' element" << std::endl;
+        return;
+    }
 
-    listener->OnLoadComponent(atts[1]);
-    parsed_element = COMPONENT;
+    if (!strncmp("name", atts[0], strlen("name"))) {
+        listener->OnLoadComponent(atts[1]);
+        parsed_element = COMPONENT;
+    }
 }
 
 void ModuleXmlParser::ParseComponent(const XML_Char *name, const XML_Char **atts) {
@@ -102,16 +110,16 @@ void ModuleXmlParser::ParseComponent(const XML_Char *name, const XML_Char **atts
 }
 
 void ModuleXmlParser::ParseSettings(const XML_Char *name, const XML_Char **atts) {
-    std::cout << "xml_parser\t" << "Parse 'settings': " << name << std::endl;
+    // TODO
 
     parsed_element = SETTINGS;
 }
 
 void ModuleXmlParser::ParseInterface(const XML_Char *name, const XML_Char **atts) {
-    std::cout << "xml_parser\t" << "Parse 'interface': " << name << std::endl;
+    // TODO
 
     if (!atts || !atts[0] || !atts[1] || !atts[2] || !atts[3]) {
-        std::cerr << "xml_parser\t" << "Failed to parse 'settings' element" << std::endl;
+        std::cerr << "xml_parser\t" << "Failed to parse 'interface' element" << std::endl;
         return;
     }
 
@@ -124,15 +132,13 @@ void ModuleXmlParser::ParseInterface(const XML_Char *name, const XML_Char **atts
         id = atts[3];
         service = atts[1];
     }
-
-    std::cout << "xml_parser\t" << "\tiface id: " << id << ", service: " << service << std::endl;
 }
 
 void ModuleXmlParser::ParseDepend(const XML_Char *name, const XML_Char **atts) {
-    std::cout << "xml_parser\t" << "Parse 'depend': " << name << std::endl;
+    // TODO
 
     if (!atts || !atts[0] || !atts[1]) {
-        std::cerr << "xml_parser\t" << "Failed to parse 'settings' element" << std::endl;
+        std::cerr << "xml_parser\t" << "Failed to parse 'depend' element" << std::endl;
         return;
     }
 
@@ -142,9 +148,6 @@ void ModuleXmlParser::ParseDepend(const XML_Char *name, const XML_Char **atts) {
 
         listener->OnLoadConfig(component);
     }
-
-    std::cout << "xml_parser\t" << "\tcomponent: " << component << std::endl;
-
 }
 
 } /* openlane */
