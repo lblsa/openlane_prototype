@@ -20,7 +20,7 @@ void ComponentOne::Run()
     if (cp->CreateObject(algo)) {
         algo->DoAlgo();
     } else {
-        std::cerr << "Failed to create AlgorithmPtr, no interface" << std::endl;
+        std::cerr << "Failed to create Algorithm, no registered interface" << std::endl;
     }
 }
 

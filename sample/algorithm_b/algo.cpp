@@ -1,4 +1,5 @@
 #include <openlane/component_provider.h>
+#include <algorithm/algo_c.h>
 #include "algo.h"
 
 AlgorithmB::AlgorithmB(openlane::ComponentProvider* _cp) : cp(_cp)
@@ -14,6 +15,13 @@ AlgorithmB::~AlgorithmB()
 void AlgorithmB::DoAlgo()
 {
     std::cout << "AlgorithmB::DoAlgo" << std::endl;
+
+    AlgorithmCPtr algo_c;
+    if (cp->CreateObject(algo_c)) {
+        algo_c->DoAlgo();
+    } else {
+        std::cerr << "Failed to create AlgorithmC, no interface" << std::endl;
+    }
 }
 
 void* AlgorithmB::Create(void* ctx, void** obj)

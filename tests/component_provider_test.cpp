@@ -14,6 +14,6 @@ class ComponentProviderTest : public ::testing::Test
 TEST_F(ComponentProviderTest, Valid)
 {
     openlane::ComponentProvider provider;
-    openlane::ErrorCode result = provider.LoadConfig("component1.xml");
+    openlane::ErrorCode result = provider.LoadConfig("component_a.xml");
     EXPECT_EQ(openlane::Ok, result);
 }

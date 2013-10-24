@@ -2,10 +2,10 @@
 #define ALGORITHM_C_H
 
 #include <openlane/component.h>
-#include <algorithm/algo.h>
+#include <algorithm/algo_c.h>
 #include <openlane/component_provider.h>
 
-class AlgorithmC : public IAlgorithm {
+class AlgorithmC : public IAlgorithmC {
   public:
     AlgorithmC(openlane::ComponentProvider* _cp);
     virtual ~AlgorithmC();
