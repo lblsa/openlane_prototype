@@ -4,14 +4,17 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
+#include <cassert>
 
 namespace openlane {
 
-#define BUF_SIZE 100
+#define BUF_SIZE 1024
     
-ModuleXmlParser::ModuleXmlParser() :
-    parsed_element(ROOT)
+ModuleXmlParser::ModuleXmlParser(IXmlParserEventListener* _listener) :
+    parsed_element(ROOT),
+    listener(_listener)
 {
+    assert(listener);
 }
 
 ModuleXmlParser::~ModuleXmlParser() {
@@ -27,7 +30,6 @@ ErrorCode ModuleXmlParser::Parse(const char* file_name) {
         std::cerr << "xml_parser\tFailed to open file " << file_name << std::endl;
         return Fail;
     }
-
     ErrorCode error = Ok;
     while(!file.eof()) {
         char buf[BUF_SIZE] = {0};
@@ -43,6 +45,8 @@ ErrorCode ModuleXmlParser::Parse(const char* file_name) {
     }
 
     file.close();
+    ResetParser();
+    parsed_element = ROOT;
     return error;
 }
 
@@ -86,6 +90,7 @@ void ModuleXmlParser::ParseRoot(const XML_Char *name, const XML_Char **atts) {
     // component name
     std::cout << "xml_parser\t" << "Parse 'component': " << name << std::endl;
 
+    listener->OnLoadComponent(atts[1]);
     parsed_element = COMPONENT;
 }
 
@@ -134,6 +139,8 @@ void ModuleXmlParser::ParseDepend(const XML_Char *name, const XML_Char **atts) {
     const char* component = NULL;
     if (!strncmp("component", atts[0], strlen("component"))) {
         component = atts[1];
+
+        listener->OnLoadConfig(component);
     }
 
     std::cout << "xml_parser\t" << "\tcomponent: " << component << std::endl;

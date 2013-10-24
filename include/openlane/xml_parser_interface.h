@@ -13,6 +13,7 @@ class IXmlParser {
     static void StartElementCb(void *userData, const XML_Char *name, const XML_Char **atts);
     static void EndElementCb(void *userData, const XML_Char *name); 
     ErrorCode DoParse(const char *s, int len, int isFinal);
+    void ResetParser();
 
     virtual void StartElement(const XML_Char *name, const XML_Char **atts) = 0;
     virtual void EndElement(const XML_Char *name) = 0;

@@ -11,15 +11,17 @@
 #include <map>
 
 #include <stdio.h>
+#include <openlane/module_xml_parser.h>
 
 namespace openlane {
 
-class ComponentProvider {
+class ComponentProvider : public IXmlParserEventListener {
   public:
     ComponentProvider();
     virtual ~ComponentProvider();
 
     ErrorCode Initialize(const char* filename);
+    ErrorCode LoadConfig(const char* filename);
     ErrorCode LoadComponent(const char* filename);
     virtual ErrorCode RegisterComponent(uint32_t id, CreateComponentFn fun);
     virtual ErrorCode UnregisterComponent(uint32_t id);
@@ -43,11 +45,14 @@ class ComponentProvider {
   private:
     ComponentProvider(const ComponentProvider&);
     ComponentProvider operator=(const ComponentProvider&);
+    void OnLoadComponent(const char* name);
+    void OnLoadConfig(const char* name);
 
     ModuleXmlParser xml_parser;
 
     typedef std::vector<DynamicLibraryPtr>::reverse_iterator ComponentReverseIterator;
     std::vector<DynamicLibraryPtr> modules;
+    std::vector<std::string> configs;
     std::map<uint32_t, CreateComponentFn> dic;
 };
     

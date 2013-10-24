@@ -31,9 +31,14 @@ ErrorCode IXmlParser::DoParse(const char *s, int len, int isFinal) {
     ErrorCode error = Fail;
     if (parser) {
         error = XML_Parse(parser, s, len, isFinal) == XML_STATUS_ERROR ? Fail : Ok;
+        std::cout << "ERROR: " << XML_GetErrorCode(parser) << std::endl;
     }
 
     return error;
+}
+
+void IXmlParser::ResetParser() {
+    XML_ParserReset(parser, 0);
 }
 
 } /* openlane */

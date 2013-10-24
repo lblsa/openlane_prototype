@@ -5,9 +5,16 @@
 
 namespace openlane {
 
+class IXmlParserEventListener {
+  public:
+    virtual ~IXmlParserEventListener() {};
+    virtual void OnLoadComponent(const char* name) = 0;
+    virtual void OnLoadConfig(const char* name) = 0;
+};
+
 class ModuleXmlParser : private IXmlParser {
   public:
-    ModuleXmlParser();
+    ModuleXmlParser(IXmlParserEventListener*);
     virtual ~ModuleXmlParser();
 
     ErrorCode Parse(const char* file_name);
@@ -22,6 +29,7 @@ class ModuleXmlParser : private IXmlParser {
 
     enum Element { ROOT = 0, COMPONENT, SETTINGS };
     Element parsed_element;
+    IXmlParserEventListener* listener;
 };
     
 } /* openlane */

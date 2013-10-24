@@ -6,9 +6,16 @@
 int main(int argc, const char *argv[])
 {
     openlane::ComponentProvider provider;
-    int a = atoi(argv[1]);
+//    int a = atoi(argv[1]);
 
     openlane::ErrorCode res;
+   res = provider.Initialize("c.xml");
+        if (openlane::Ok != res ) {
+            std::cerr << "provider.Initialize failed, err=" << res << std::endl;
+            return 1;
+        }
+
+    /*
     if (a == 1) {
         res = provider.LoadComponent("./libalgorithm_a.so");
         if (openlane::Ok != res ) {
@@ -34,6 +41,7 @@ int main(int argc, const char *argv[])
         std::cerr << "LoadComponent libcomponent1.so failed, err=" << res << std::endl;
         return 1;
     }
+    */
 
 
     ComponentOnePtr c;
