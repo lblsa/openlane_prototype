@@ -34,6 +34,6 @@ TEST_F(ModuleXmlParserTest, ValidXml)
 {
     openlane::ModuleXmlParser parser(listener);
 
-    openlane::ErrorCode result = parser.Parse("valid.xml");
+    openlane::ErrorCode result = parser.Parse("component_a.xml");
     EXPECT_EQ(openlane::Ok, result);
 }
