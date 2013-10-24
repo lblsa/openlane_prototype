@@ -3,8 +3,10 @@
 #include <iostream>
 #include <string>
 
+namespace {
 typedef uint32_t (*ComponentFn)(void *ctx);
 ComponentFn LCT;
+}
 
 namespace openlane {
 
@@ -45,7 +47,7 @@ ErrorCode ComponentProvider::LoadComponent(const char* filename) {
     {
         DynamicLibraryPtr module(new DynamicLibrary);
         res = module->Load(filename);
-        std::cout << "LoadComponent\tLoad(" << filename << ")=" << res << std::endl;
+        std::cout << "component_provider\tLoad component " << filename << ", result=" << res << std::endl;
 
         if (Ok == res)
             res = module->GetSymbol("LoadComponent", LCT);
@@ -65,11 +67,10 @@ ErrorCode ComponentProvider::LoadComponent(const char* filename) {
 }
 
 ErrorCode ComponentProvider::Initialize(const char* filename) {
+    std::cout << "component_provider\tInitialize" << std::endl;
     configs.push_back(std::string(filename));
-        std::cout << "ComponentProvider::Initialize\tname1=" << *configs.begin() << std::endl;
 
     while(!configs.empty()) {
-        std::cout << "ComponentProvider::Initialize\tname=" << *configs.begin() << std::endl;
         LoadConfig(configs.begin()->c_str());
         configs.erase(configs.begin());
     }
@@ -80,6 +81,7 @@ ErrorCode ComponentProvider::LoadConfig(const char* filename) {
     if (!filename)
         return InvalidArgument;
 
+    std::cout << "component_provider\tParse config, name=" << filename << std::endl;
     ErrorCode result = xml_parser.Parse(filename);
     if (result != Ok)
         return result;
@@ -88,26 +90,23 @@ ErrorCode ComponentProvider::LoadConfig(const char* filename) {
 }
 
 ErrorCode ComponentProvider::RegisterComponent(uint32_t id, CreateComponentFn fun) {
-    std::cout << "ComponentProvider::RegisterComponent\tid=" << id << std::endl;
+    std::cout << "component_provider\tRegisterComponent id=" << id << std::endl;
     dic[id] = fun;
     return Ok;
 }
 
 ErrorCode ComponentProvider::UnregisterComponent(uint32_t id) {
-    std::cout << "ComponentProvider::UnregisterComponent\tid=" << id << std::endl;
+    std::cout << "component_provider\tUnregisterComponent id=" << id << std::endl;
     return Ok;
 }
 
 void ComponentProvider::OnLoadComponent(const char* name) {
     std::string module_name = MakeModuleName(name);
-    std::cout << "ComponentProvider::OnLoadComponent\tname=" << module_name << std::endl;
     LoadComponent(module_name.c_str());
 }
     
 void ComponentProvider::OnLoadConfig(const char* name) {
     std::string config_name = MakeConfigName(name);
-    std::cout << "ComponentProvider::OnLoadConfig\tname=" << config_name << std::endl;
-    //LoadConfig(config_name.c_str());
     configs.push_back(config_name);
 }
  
